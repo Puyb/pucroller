@@ -1,6 +1,6 @@
 # Inscriptions Roller
 
-Registration site for 6h roller races by team
+Registration site for roller club
 
 ## Getting Started
 
