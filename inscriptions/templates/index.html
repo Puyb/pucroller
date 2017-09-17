@@ -1,0 +1,11 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+<section class="jumbotron">
+    <p><a class="btn btn-primary btn-lg" href="{% url "inscriptions.reinscription" %}" role="button">Ré-inscription au club</a></p>
+    <p><a class="btn btn-primary btn-lg" href="{% url "inscriptions.inscription" %}" role="button">Inscription au club</a></p>
+</section>
+{% endblock %}

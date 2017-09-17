@@ -1,0 +1,73 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% load l10n %}
+{% block body %}
+<div class="jumbotron">
+    <div class="media">
+        <div class="media-left">
+            <img src="{{ STATIC_URL }}logo-PUCRoller.png" align="left" width="100" class="visible-xs"/>
+            <img src="{{ STATIC_URL }}logo-PUCRoller.png" align="left" width="200" class="hidden-xs"/>
+        </div>
+        <div class="media-body">
+            <h2>{% trans 'Votre inscription est enregistrée' %}</h2>
+            <p>
+                <table>
+                    <tr><th>{% trans "Nom : " %}</th><td>{{ instance.nom }}</td></tr>
+                    <tr><th>{% trans "Prenom : " %}</th><td>{{ instance.prenom }}</td></tr>
+                </table>
+            </p>
+            {% if create %}
+            <p>{% trans 'Un email de confirmation vient de vous être envoyé.' %}</p>>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{% trans "Paiement :" %}</h3>
+    </div>
+    <div class="panel-body">
+        {% if not instance.paiement_complet %}
+        <p>{% trans 'Pour régler votre inscription vous pouvez payer par internet :' %}</p>
+
+        {% block payment_form %}
+        <p>
+            <form action="{{ PAYPAL_URL }}" method="post">
+                <input type="hidden" name="business"      value="{{ PAYPAL_BUSINESS }}" />
+                <input type="hidden" name="currency_code" value="EUR" />
+                <input type="hidden" name="return"        value="" id="paypal_return_url" />
+                <input type="hidden" name="cmd"           value="_cart" />
+                <input type="hidden" name="upload"        value="1" />
+                <input type="hidden" name="no_shipping"   value="1" />
+                <input type="hidden" name="item_name_1"   value="Inscription 2017-2018" />
+                <input type="hidden" name="invoice"       value="{{ instance.id }}{{ hour }}" />
+                <input type="hidden" name="amount_1"      value="{{ instance.prix|stringformat:".2f" }}" />
+                <input type="hidden" name="quantity_1"    value="1" />
+                {# LEAVE THE HANDLING CHARGE ALONE!  PAYPAL SHIPPING WILL INEVITABLY BE MESSED UP IF YOU USE THEIR SHIPPING METHODS #}
+                {# To work around their bizarre system, we are telling Paypal "no shipping" and adding all shipping charges as handling #}
+                <input type="hidden" name="handling_cart" value="0.00" />
+                <input type="hidden" name="tax_cart"      value="0.00" />
+                <input type="hidden" name="notify_url"    value="{{ paypal_ipn_url }}" />
+
+                <input type="submit" value="{% trans 'Paypal ou Carte bancaire' %}" class="btn btn-primary"><br />
+            </form>
+            <script> document.getElementById('paypal_return_url').value = location.href; </script>
+        </p>
+        {% endblock %}
+
+        <p>{% blocktrans with prix=instance.prix %}Ou envoyer un chèque de {{ prix }} € à l'ordre du "Paris Université Club" en précisant votre nom et prénom.{% endblocktrans %}</p>
+        Envoyez votre chèque et votre certificat à : <pre>PUC Roller
+Alexandre Mary
+14 rue Boyer Barret
+75014 Paris
+</pre>
+        {% else %}
+        <p>{% blocktrans with prix=instance.paiement %}Votre paiement de {{ prix }} € à bien été reçu.{% endblocktrans %}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

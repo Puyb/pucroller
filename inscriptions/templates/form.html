@@ -1,0 +1,72 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% load l10n %}
+{% load bootstrap %}
+{% block body %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% if create %}<h1>{% trans 'Inscription 2017 - 2018' %}</h1>{% endif %}
+{% if update %}<h1>{% trans 'Modification de votre inscription' %} - {{ TITLE }}</h1>{% endif %}
+<form class="form-horizontal" method="post" enctype="multipart/form-data" onsubmit="$('#button_submit')[0].disabled = true; $('#button_submit').css('display', 'none'); return actual_part > parseInt($('#id_nombre').val()); ">
+    {% if errors %}
+    <div class="panel panel-danger">
+        {% if form.errors %}
+        <div class="panel-heading">{% blocktrans %}Votre inscription comporte des erreurs :{% endblocktrans %}</div>
+        <div class="panel-body">
+            {% blocktrans %}Veuillez les corriger et valider à nouveau votre inscription.{% endblocktrans %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div id="part0" class="parts">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="media">
+                    <div class="media-left">
+                        <img src="{{ STATIC_URL }}logo-PUCRoller.png" align="left" width="100" class="visible-xs"/>
+                        <img src="{{ STATIC_URL }}logo-PUCRoller.png" align="left" width="200" class="hidden-xs"/>
+                    </div>
+                    <div class="media-body">
+                        <p>Remplissez le formulaire suivant pour vous inscrire à la section roller du PUC.</p>
+
+                        <p>Tarifs :
+                        <table>
+                            <tr><th>Actif, enfant, retraité :</th><td>180€</td></tr>
+                            <tr><th>Chomeur, étudiant :</th><td>140€</td></tr>
+                        </table>
+
+                        Reduction de 10€ pour réadhésion avant le 15 octobre (entrez votre numéro de licence pour en bénéficier).</p>
+
+                        <p>Cette inscription inclue votre licence, un t-shirt du club, et 10€ de reduction pour une tenue du club. Vous pouvez assister à n'importe quelle session si votre niveau le permet. N'hesitez pas à demander aux coachs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">{%trans 'Inscription saison 2017-2018' %}</div>
+            <div class="panel-body">{{ form|bootstrap_horizontal }}</div>
+        </div>
+    </div>
+
+    <div class="btn-toolbar pull-right" role="toolbar">
+        <div class="btn-group" role="group">
+            <button class="btn btn-success" id="button_submit" type="submit">{% trans "Valider" %}</button>
+        </div>
+    </div>
+    {% csrf_token %}
+    
+    <div class="clearfix"></div>
+</form>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    var INSTANCE = {% if not instance %}{}{% else %}{
+        ID: {{ instance.id }},
+    }{% endif %};
+    var UPDATE = {{ update|yesno:"true,false" }};
+    {% if message %} alert("{{ message }}"); location.reload(true); {% endif %}
+</script>
+<script src="{{ STATIC_URL }}form.js"></script>
+<script>$('#id_cours').selectpicker();</script>
+{% endblock %}

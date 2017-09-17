@@ -1,0 +1,60 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% load l10n %}
+{% load bootstrap %}
+{% block body %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% if create %}<h1>{% trans 'Inscription 2017 - 2018' %}</h1>{% endif %}
+{% if update %}<h1>{% trans 'Modification de votre inscription' %} - {{ TITLE }}</h1>{% endif %}
+<form class="form-horizontal" method="post" enctype="multipart/form-data" onsubmit="$('#button_submit')[0].disabled = true; $('#button_submit').css('display', 'none'); ">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="media">
+                <div class="media-left">
+                    <img src="{{ STATIC_URL }}logo-PUCRoller.png" align="left" width="100" class="visible-xs"/>
+                    <img src="{{ STATIC_URL }}logo-PUCRoller.png" align="left" width="200" class="hidden-xs"/>
+                </div>
+                <div class="media-body">
+                    <p>Pour vous ré-inscrire à la section roller du PUC, veuillez saisir votre numéro de licence.</p>
+
+                    <p>Reduction de 10€ pour réadhésion avant le 15 octobre (entrez votre numéro de licence pour en bénéficier).</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{%trans 'Ré-inscription saison 2017-2018' %}</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label col-sm-3 col-lg-3" for="q">Numéro de licence :</label>
+                <div class=" col-sm-9 col-lg-9 ">
+                    <input class=" form-control" id="id_q" maxlength="200" name="q" type="text" value="{{ request.POST.q }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-toolbar pull-right" role="toolbar">
+        <div class="btn-group" role="group">
+            <button class="btn btn-success" id="button_submit" type="submit">{% trans "Valider" %}</button>
+        </div>
+    </div>
+    {% csrf_token %}
+    
+    <div class="clearfix"></div>
+</form>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    var INSTANCE = {% if not instance %}{}{% else %}{
+        ID: {{ instance.id }},
+    }{% endif %};
+    var UPDATE = {{ update|yesno:"true,false" }};
+    {% if message %} alert("{{ message }}"); location.reload(true); {% endif %}
+</script>
+<script src="{{ STATIC_URL }}form.js"></script>
+<script>$('#id_cours').selectpicker();</script>
+{% endblock %}
