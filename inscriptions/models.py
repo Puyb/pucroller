@@ -31,8 +31,8 @@ DISCIPLINE_CHOICES = (
 REDUCTION_CHOICES = (
     ('actif', _('Actif ou retraité')),
     ('enfant', _('Enfant')),
-    ('etudiant', _('Etudiant')),
-    ('chommeur', _('Chomeur')),
+    ('etudiant', _('Étudiant')),
+    ('chomeur', _('Chômeur')),
 )
 
 class Saison(models.Model):
@@ -85,7 +85,7 @@ class Membre(models.Model):
     contact_email     = models.EmailField(_('e-mail'), max_length=200, blank=True)
 
     password          = models.CharField(max_length=200, blank=True)
-    paiement_info     = models.CharField(_('Détails'), max_length=200, blank=True)
+    paiement_info     = models.CharField(_('Détails'), max_length=1000, blank=True)
     prix              = models.DecimalField(_('Prix'), max_digits=5, decimal_places=2, default=Decimal(0))
     paiement          = models.DecimalField(_('Paiement reçu'), max_digits=5, decimal_places=2, null=True, blank=True)
     date              = models.DateTimeField(_("Date d'insciption"), auto_now_add=True)

@@ -134,7 +134,7 @@ def ipn(request):
 
         membre = get_object_or_404(Membre, id=data['invoice'][0:-4])
         membre.paiement = data['mc_gross']
-        membre.paiement_info = 'Paypal %s %s' % (datetime.now(), data['txn_id'])
+        membre.paiement_info = 'Paypal %s %s %s %s %s' % (datetime.now(), data['txn_id'], data['payer_email'], data['first_name'], data['last_name'])
         membre.save()
 
     except:
