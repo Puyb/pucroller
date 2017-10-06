@@ -19,5 +19,6 @@ urlpatterns += [
     url(r'^inscription/$', 'inscriptions.views.inscription', name='inscriptions.inscription'),
     url(r'^inscription/(?P<id>\d+)/done/$', 'inscriptions.views.done', name='inscriptions.done'),
     url(r'^inscription/ipn/$', 'inscriptions.views.ipn', name='inscriptions.ipn'),
+    url(r'^membres/(?P<saison>\d+)-\d+/trombi/$', 'inscriptions.views.list', name='inscriptions.trombi'),
 ]
 

@@ -1,0 +1,18 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% block body %}
+<style>.caption h3 { text-transform: uppercase; font-size: 0.8em;}</style>
+<div class="row">
+{% for membre in membres %}
+  <div class="col-sm-6 col-md-2">
+    <div class="thumbnail">
+        <img src="{{ MEDIA_URL }}{{membre.photo}}" alt="{{membre.num_licence}}&nbsp;">
+      <div class="caption">
+          <h3>{{ membre.prenom }} {{ membre.nom }}</h3>
+          <p>{{ membre.num_licence }} - {{ membre.discipline }}</p>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

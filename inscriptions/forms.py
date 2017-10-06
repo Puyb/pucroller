@@ -7,7 +7,7 @@ from .models import Membre, SEXE_CHOICES, REDUCTION_CHOICES
 class MembreForm(ModelForm):
     class Meta:
         model = Membre
-        exclude = ('saison', 'certificat_valide', 'paiement', 'paiement_info', 'date', 'password', 'certificat_valide', 'photo_valide', 'prix')
+        exclude = ('saison', 'certificat_valide', 'paiement', 'paiement_info', 'date', 'password', 'certificat_valide', 'photo_valide', 'prix', 'licence_ffrs')
         widgets = {
             'sexe':              Select(choices=SEXE_CHOICES),
             'reduction':         RadioSelect(choices=REDUCTION_CHOICES),

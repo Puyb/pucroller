@@ -158,3 +158,9 @@ def confirm_ipn_data(data, PP_URL):
 
     return True
 
+def list(request, saison, template="trombi.html"):
+    saison = get_object_or_404(Saison, annee=saison)
+    return render_to_response(template, RequestContext(request, {
+        'membres': saison.membres.order_by('nom'),
+    }))
+
