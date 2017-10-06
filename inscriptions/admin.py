@@ -14,7 +14,10 @@ class CoursAdmin(admin.ModelAdmin):
 site.register(Cours, CoursAdmin)
 
 class MembreAdmin(admin.ModelAdmin):
-    list_display = ('num_licence', 'nom', 'prenom', 'saison')
+    search_fields = ('num_licence', 'nom', 'prenom', )
+    list_display = ('num_licence', 'nom', 'prenom', 'saison', 'date', )
+    list_filter = ['saison', ]
+    ordering = ['-date', ]
 site.register(Membre, MembreAdmin)
 
     
