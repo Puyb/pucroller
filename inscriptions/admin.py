@@ -35,6 +35,7 @@ class PaiementCompletFilter(SimpleListFilter):
 class MembreAdmin(admin.ModelAdmin):
     search_fields = ('num_licence', 'nom', 'prenom', )
     list_display = ('num_licence', 'nom', 'prenom', 'saison', 'date', 'paiement_complet2', 'licence2', 'dossier_complet_auto2')
+    list_display_links = ('num_licence', 'nom', 'prenom', )
     list_filter = ['saison', PaiementCompletFilter, 'licence', 'certificat_valide']
     ordering = ['-date', ]
 
