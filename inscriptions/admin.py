@@ -58,7 +58,7 @@ class MembreAdmin(admin.ModelAdmin):
             return u"""<img alt="None" src="/static/admin/img/icon-no.gif">"""
         return u""
     dossier_complet_auto2.allow_tags = True
-    dossier_complet_auto2.short_description = mark_safe(u"""<img alt="None" src="/static/admin/img/icon-yes.gif">""")
+    dossier_complet_auto2.short_description = 'Certif'
 
 site.register(Membre, MembreAdmin)
 

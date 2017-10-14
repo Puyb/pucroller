@@ -49,6 +49,9 @@ class Cours(models.Model):
     horaire    = models.CharField(_(u'Horaire'), max_length=200)
     discipline = models.CharField(_(u'Discipline'), max_length=20, choices=DISCIPLINE_CHOICES)
 
+    class Meta:
+        verbose_name = _('Session')
+
     def __str__(self):
         return '%s - %s - %s - %s' % (self.nom, self. lieu, self.horaire, self.discipline)
 

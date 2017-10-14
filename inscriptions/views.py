@@ -55,7 +55,7 @@ def inscription(request):
     previousinstance = None
     old_password = None
     if request.method == 'POST':
-        form = MembreForm(request.POST, request.FILES, instance=instance)
+        form = MembreForm(request.POST, request.FILES, instance=instance, saison=saison)
 
         if form.is_valid():
             new_instance = form.save(commit=False)
@@ -73,6 +73,7 @@ def inscription(request):
             
             new_instance.saison = saison
             new_instance.save()
+            form.save_m2m()
             if not instance:
                 try:
                     # send mail
@@ -94,7 +95,7 @@ def inscription(request):
     else:
         if 'id' in request.GET:
             previousinstance = get_object_or_404(Membre, id=request.GET['id'])
-        form = MembreForm(instance=previousinstance)
+        form = MembreForm(instance=previousinstance, saison=saison)
 
     return render_to_response("form.html", RequestContext(request, {
         "form": form,
