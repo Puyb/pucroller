@@ -112,3 +112,7 @@ class Membre(models.Model):
 
     def paiement_complet(self):
         return (self.paiement or Decimal(0)) >= self.prix
+
+    def paiement_info2(self):
+        return self.paiement_info or 'Chèque'
+    paiement_info2.verbose_name = 'paiement'
