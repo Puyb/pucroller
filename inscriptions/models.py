@@ -93,6 +93,7 @@ class Membre(models.Model):
     paiement          = models.DecimalField(_('Paiement reçu'), max_digits=5, decimal_places=2, null=True, blank=True)
     date              = models.DateTimeField(_("Date d'insciption"), auto_now_add=True)
     licence           = models.BooleanField(default=False)
+    envoi_puc         = models.DateTimeField(_("Date envoi au PUC"), null=True, blank=True, default=None)
 
     
     def age(self, today=None):
