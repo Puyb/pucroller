@@ -1,10 +1,8 @@
 // ~ uses paths in node_modules based on default webpack configuration
 @import "~bootstrap/less/bootstrap.less";
 @import "~bootstrap-select/less/bootstrap-select.less";
-@import "~font-awesome/less/font-awesome.less";
 
 // Override some of the variables in bootstrap and font-awesome, @@@ put in own file
-@fa-font-path: "~font-awesome/fonts/";
 @icon-font-path: "~bootstrap/fonts/";
 
 @font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -13,34 +11,9 @@
 
 @popover-max-width: 100%;
 
-// Account
-@import "account.less";
-
 // Site overrides
 @import "custom.less";
 
-.equal {
-    @media (min-width: @screen-xs-max) {
-        flex-wrap: wrap;
-    }
-}
-.equal, .equal > div[class*='col-'] {  
-    @media (min-width: @screen-xs-max) {
-        display: -webkit-flex;
-        display: flex;
-        flex: 0 0 auto;
-    }
-}
-.equal, .equal > div[class*='col-'] > div {
-    width: 100%;
-}
-
-.list_inscrits {
-    width: 100%;
-}
-.list_inscrits tr:nth-child(odd) {
-    background: #f5f5f5;
-}
 select[name*=date_de_naissance] {
     max-width: 12rem;
     float: left;
