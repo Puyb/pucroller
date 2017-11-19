@@ -55,7 +55,7 @@ def inscription(request):
     previousinstance = None
     old_password = None
     if request.method == 'POST':
-        form = MembreForm(request.POST, request.FILES, instance=instance)
+        form = MembreForm(request.POST, request.FILES, instance=instance, saison=saison)
 
         if form.is_valid():
             new_instance = form.save(commit=False)
@@ -73,6 +73,7 @@ def inscription(request):
             
             new_instance.saison = saison
             new_instance.save()
+            form.save_m2m()
             if not instance:
                 try:
                     # send mail
@@ -94,7 +95,7 @@ def inscription(request):
     else:
         if 'id' in request.GET:
             previousinstance = get_object_or_404(Membre, id=request.GET['id'])
-        form = MembreForm(instance=previousinstance)
+        form = MembreForm(instance=previousinstance, saison=saison)
 
     return render_to_response("form.html", RequestContext(request, {
         "form": form,
@@ -134,7 +135,7 @@ def ipn(request):
 
         membre = get_object_or_404(Membre, id=data['invoice'][0:-4])
         membre.paiement = data['mc_gross']
-        membre.paiement_info = 'Paypal %s %s' % (datetime.now(), data['txn_id'])
+        membre.paiement_info = 'Paypal %s %s %s %s %s' % (datetime.now(), data['txn_id'], data['payer_email'], data['first_name'], data['last_name'])
         membre.save()
 
     except:
@@ -157,4 +158,10 @@ def confirm_ipn_data(data, PP_URL):
         return False
 
     return True
+
+def list(request, saison, template="trombi.html"):
+    saison = get_object_or_404(Saison, annee=saison)
+    return render_to_response(template, RequestContext(request, {
+        'membres': saison.membres.order_by('nom'),
+    }))
 

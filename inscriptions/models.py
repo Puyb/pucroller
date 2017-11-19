@@ -31,8 +31,8 @@ DISCIPLINE_CHOICES = (
 REDUCTION_CHOICES = (
     ('actif', _('Actif ou retraité')),
     ('enfant', _('Enfant')),
-    ('etudiant', _('Etudiant')),
-    ('chommeur', _('Chomeur')),
+    ('etudiant', _('Étudiant')),
+    ('chomeur', _('Chômeur')),
 )
 
 class Saison(models.Model):
@@ -49,6 +49,9 @@ class Cours(models.Model):
     horaire    = models.CharField(_(u'Horaire'), max_length=200)
     discipline = models.CharField(_(u'Discipline'), max_length=20, choices=DISCIPLINE_CHOICES)
 
+    class Meta:
+        verbose_name = _('Session')
+
     def __str__(self):
         return '%s - %s - %s - %s' % (self.nom, self. lieu, self.horaire, self.discipline)
 
@@ -59,7 +62,7 @@ COURS_HELP = _("""Cochez la ou les sessions auxquelles vous souhaitez participer
 LICENCE_HELP = _("""Si vous le connaissez""")
 
 class Membre(models.Model):
-    saison            = models.ForeignKey(Saison)
+    saison            = models.ForeignKey(Saison, related_name='membres')
     nom               = models.CharField(_('Nom'), max_length=200)
     prenom            = models.CharField(_('Prénom'), max_length=200, blank=True)
     sexe              = models.CharField(_('Sexe'), max_length=1, choices=SEXE_CHOICES)
@@ -85,10 +88,11 @@ class Membre(models.Model):
     contact_email     = models.EmailField(_('e-mail'), max_length=200, blank=True)
 
     password          = models.CharField(max_length=200, blank=True)
-    paiement_info     = models.CharField(_('Détails'), max_length=200, blank=True)
+    paiement_info     = models.CharField(_('Détails'), max_length=1000, blank=True)
     prix              = models.DecimalField(_('Prix'), max_digits=5, decimal_places=2, default=Decimal(0))
     paiement          = models.DecimalField(_('Paiement reçu'), max_digits=5, decimal_places=2, null=True, blank=True)
     date              = models.DateTimeField(_("Date d'insciption"), auto_now_add=True)
+    licence           = models.BooleanField(default=False)
 
     
     def age(self, today=None):
@@ -106,3 +110,9 @@ class Membre(models.Model):
     def cookie_key(self):
         return 'code_%s' % self.id
 
+    def paiement_complet(self):
+        return (self.paiement or Decimal(0)) >= self.prix
+
+    def paiement_info2(self):
+        return self.paiement_info or 'Chèque'
+    paiement_info2.verbose_name = 'paiement'

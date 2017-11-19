@@ -96,7 +96,7 @@ TEMPLATES = [
                 "django.core.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.request",
-                "account.context_processors.account",
+                #"account.context_processors.account",
                 "pinax_theme_bootstrap.context_processors.theme",
                 "inscriptions.context_processors.import_settings",
             ],
@@ -136,7 +136,7 @@ INSTALLED_APPS = [
     "pinax_theme_bootstrap",
 
     # external
-    "account",
+    #"account",
     "metron",
     "pinax.eventlog",
 
