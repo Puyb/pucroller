@@ -70,6 +70,10 @@ def inscription(request):
                 new_instance.prix = Decimal(140)
             if new_instance.autre_club:
                 new_instance.prix -= Decimal(35)
+            if date.today() >= date(date.today().year, 3, 1):
+                new_instance.prix -= Decimal(20)
+            if date.today() >= date(date.today().year, 5, 1):
+                new_instance.prix -= Decimal(20)
             
             new_instance.saison = saison
             new_instance.save()
